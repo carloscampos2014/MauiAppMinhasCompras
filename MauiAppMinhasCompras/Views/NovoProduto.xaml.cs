@@ -1,4 +1,5 @@
 using MauiAppMinhasCompras.Models;
+using MauiAppMinhasCompras.Validations;
 
 namespace MauiAppMinhasCompras.Views;
 
@@ -44,6 +45,15 @@ public partial class NovoProduto : ContentPage
                     Quantidade = Convert.ToDouble(txtQuantidade.Text),
                     Preco = Convert.ToDouble(txtPrecoUnitario.Text)
                 };
+
+                var validation = new ProdutoValidation();
+                var result = await validation.ValidateAsync(produto);
+                if (!result.IsValid)
+                {
+                    string errors = string.Join(Environment.NewLine, result.Errors.Select(e => e.ErrorMessage));
+                    await DisplayAlertAsync("Erros de Validação", errors, "OK");
+                    return;
+                }
 
                 int qtd = await App.Db.InsertProduto(produto);
                 if (qtd > 0)
