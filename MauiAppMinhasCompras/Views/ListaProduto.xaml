@@ -6,12 +6,11 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Adicionar" x:Name="btnAdicionar" Clicked="btnAdicionar_Clicked" />
     </ContentPage.ToolbarItems>
-    <VerticalStackLayout Spacing="10"
-                         Padding="10">
-        <SearchBar Placeholder="Pesquisar produtos..." x:Name="txtPesquisar" TextChanged="txtPesquisar_TextChanged" />
-        <ListView x:Name="lstProdutos">
+    <Grid RowDefinitions="auto, *, auto" Padding="10">
+        <SearchBar Grid.Row="0" Placeholder="Pesquisar produtos..." x:Name="txtPesquisar" TextChanged="txtPesquisar_TextChanged" />
+        <ListView Grid.Row="1" x:Name="lstProdutos" ItemSelected="lstProdutos_ItemSelected">
             <ListView.Header>
-                <Grid ColumnDefinitions="30, *, 100, 60, 100, 100">
+                <Grid ColumnDefinitions="30, *, 100, 60, 100" Padding="5">
                     <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
                     <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
                     <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" />
@@ -25,7 +24,7 @@
                         <ViewCell.ContextActions>
                             <MenuItem Text="Remover" x:Name="mnuRemover" Clicked="mnuRemover_Clicked" />
                         </ViewCell.ContextActions>
-                        <Grid ColumnDefinitions="30, *, 100, 60, 100, 100">
+                        <Grid ColumnDefinitions="30, *, 100, 60, 100">
                             <Label Grid.Column="0" Text="{Binding Id, StringFormat='{0:D3}'}" />
                             <Label Grid.Column="1" Text="{Binding Descricao}" />
                             <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C}'}" />
@@ -36,8 +35,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Stroke="Black" StrokeThickness="1" Padding="10">
+        <Border Grid.Row="2"  Stroke="Black" StrokeThickness="1" Padding="10">
             <Label x:Name="lblTotalGeral" Text="Total Geral: R$ 0,00" FontAttributes="Bold" HorizontalOptions="End" />
         </Border>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

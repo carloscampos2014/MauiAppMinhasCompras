@@ -56,12 +56,12 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            bool confirmacao = await DisplayAlertAsync("Confirmação", "Deseja realmente remover este produto?", "Sim", "Não");
-            if (confirmacao)
+            var menuItem = sender as MenuItem;
+            var produto = menuItem?.BindingContext as ProdutoModel;
+            if (produto != null)
             {
-                var menuItem = sender as MenuItem;
-                var produto = menuItem?.BindingContext as ProdutoModel;
-                if (produto != null)
+                bool confirmacao = await DisplayAlertAsync("Confirmação", $"Deseja realmente remover o produto {produto.Descricao}?", "Sim", "Não");
+                if (confirmacao)
                 {
                     await App.Db.Delete(produto.Id);
                     lista.Remove(produto);
@@ -89,5 +89,21 @@ public partial class ListaProduto : ContentPage
 		lista.Clear();
 		produtos.ForEach(p => lista.Add(p));
         SomarProdutos();
+    }
+
+    private async void lstProdutos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        try
+        {
+            var produto = e.SelectedItem as ProdutoModel;
+            if (produto != null)
+            {
+                await Navigation.PushAsync(new EditarProduto() { BindingContext = produto });
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Ops...", $"Ocorreu um erro -> {ex.Message}", "OK");
+        }
     }
 }

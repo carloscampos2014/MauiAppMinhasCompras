@@ -16,5 +16,8 @@ public class ProdutoModel
     public double Quantidade { get; set; }
 
     [Ignore]
+    public virtual string EditarDescricao => $"Editar {Id}-{Descricao}";
+
+    [Ignore]
     public virtual double Total => Preco * Quantidade;
 }
