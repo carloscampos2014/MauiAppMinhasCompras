@@ -78,17 +78,19 @@ public partial class ListaProduto : ContentPage
     private void SomarProdutos()
 	{
 		double total = lista.Sum(p => p.Total);
-		lblTotalGeral.Text = $"Total Geral: {total:C}";
+		lblTotalGeral.Text = $"{total:C2}";
     }
 
     private async Task CarregarProdutos(string filtro)
 	{
-		var produtos = string.IsNullOrEmpty(filtro) ? 
+		lstProdutos.IsRefreshing = true;
+        var produtos = string.IsNullOrEmpty(filtro) ? 
 			await App.Db.GetAllProdutos() : 
 			await App.Db.SearchProduto(filtro);
 		lista.Clear();
 		produtos.ForEach(p => lista.Add(p));
         SomarProdutos();
+        lstProdutos.IsRefreshing = false;
     }
 
     private async void lstProdutos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -100,6 +102,19 @@ public partial class ListaProduto : ContentPage
             {
                 await Navigation.PushAsync(new EditarProduto() { BindingContext = produto });
             }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Ops...", $"Ocorreu um erro -> {ex.Message}", "OK");
+        }
+    }
+
+    private async void lstProdutos_Refreshing(object sender, EventArgs e)
+    {
+        try
+        {
+            string filtro = txtPesquisar.Text;
+            await CarregarProdutos(filtro);
         }
         catch (Exception ex)
         {
