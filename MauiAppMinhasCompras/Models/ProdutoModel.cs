@@ -14,4 +14,7 @@ public class ProdutoModel
     public double Preco { get; set; }
 
     public double Quantidade { get; set; }
+
+    [Ignore]
+    public virtual double Total => Preco * Quantidade;
 }

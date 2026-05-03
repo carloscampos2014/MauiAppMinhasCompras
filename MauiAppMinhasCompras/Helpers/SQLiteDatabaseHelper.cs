@@ -31,9 +31,9 @@ public class SQLiteDatabaseHelper
 
     public async Task<List<ProdutoModel>> SearchProduto(string searchTerm)
     {
-        return await _connection.Table<ProdutoModel>()
-            .Where(p => p.Descricao.Contains(searchTerm, StringComparison.InvariantCultureIgnoreCase))
-            .ToListAsync();
+        string sql = "SELECT * FROM Produto WHERE LOWER(Descricao) LIKE ?";
+
+        return await _connection.QueryAsync<ProdutoModel>(sql, $"%{searchTerm.ToLower()}%");
     }
 
     public async Task<int> UpdateProduto(ProdutoModel item)

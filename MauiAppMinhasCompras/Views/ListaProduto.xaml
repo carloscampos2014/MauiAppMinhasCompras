@@ -4,13 +4,40 @@
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
              Title="Minhas Compras">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Somar" />
         <ToolbarItem Text="Adicionar" x:Name="btnAdicionar" Clicked="btnAdicionar_Clicked" />
     </ContentPage.ToolbarItems>
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <VerticalStackLayout Spacing="10"
+                         Padding="10">
+        <SearchBar Placeholder="Pesquisar produtos..." x:Name="txtPesquisar" TextChanged="txtPesquisar_TextChanged" />
+        <ListView x:Name="lstProdutos">
+            <ListView.Header>
+                <Grid ColumnDefinitions="30, *, 100, 60, 100, 100">
+                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
+                    <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" />
+                    <Label Grid.Column="3" Text="Qtd" FontAttributes="Bold" />
+                    <Label Grid.Column="4" Text="Total" FontAttributes="Bold" />
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Remover" x:Name="mnuRemover" Clicked="mnuRemover_Clicked" />
+                        </ViewCell.ContextActions>
+                        <Grid ColumnDefinitions="30, *, 100, 60, 100, 100">
+                            <Label Grid.Column="0" Text="{Binding Id, StringFormat='{0:D3}'}" />
+                            <Label Grid.Column="1" Text="{Binding Descricao}" />
+                            <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C}'}" />
+                            <Label Grid.Column="3" Text="{Binding Quantidade, StringFormat='{0:N0}'}" />
+                            <Label Grid.Column="4" Text="{Binding Total, StringFormat='{0:C}'}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Border Stroke="Black" StrokeThickness="1" Padding="10">
+            <Label x:Name="lblTotalGeral" Text="Total Geral: R$ 0,00" FontAttributes="Bold" HorizontalOptions="End" />
+        </Border>
     </VerticalStackLayout>
 </ContentPage>
