@@ -9,6 +9,22 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new NavigationPage(new Views.ListaProduto()));
+        var displayInfo = DeviceDisplay.MainDisplayInfo;
+
+        var width = 800;
+        var height = 600;
+        var screenWidth = displayInfo.Width / displayInfo.Density;
+        var screenHeight = displayInfo.Height / displayInfo.Density;
+        var x = (screenWidth - width) / 2;
+        var y = (screenHeight - height) / 2;
+        return new Window(new NavigationPage(new Views.ListaProduto()))
+        {
+            Width = width,
+            Height = height,
+            Title = "Minhas Compras",
+            X = x,
+            Y = y
+        };
+
     }
 }

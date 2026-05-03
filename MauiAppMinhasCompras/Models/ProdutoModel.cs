@@ -2,6 +2,7 @@
 
 namespace MauiAppMinhasCompras.Models;
 
+[Table("Produto")]
 public class ProdutoModel
 {
     [PrimaryKey, AutoIncrement]
